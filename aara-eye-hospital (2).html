@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aara Eye Hospital - Advanced Vision Care</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #000;
+            color: #fff;
+            scroll-behavior: smooth;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); opacity: 0.3; }
+            50% { transform: translateY(-30px); opacity: 0.8; }
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes ping { 75%, 100% { transform: scale(2); opacity: 0; } }
+        @keyframes pulse { 50% { opacity: 0.5; } }
+
+        .animate-spin { animation: spin 1s linear infinite; }
+        .animate-pulse { animation: pulse 2s ease-in-out infinite; }
+        .animate-ping { animation: ping 1.5s ease-in-out infinite; }
+        .animate-float { animation: float 4s ease-in-out infinite; }
+
+        /* Scroll Progress Bar */
+        #scrollBar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(to right, #22d3ee, #4ade80);
+            z-index: 9999;
+            width: 0%;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 50;
+            padding: 1rem 1.5rem;
+        }
+
+        nav .container {
+            max-width: 80rem;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(to right, #a1e08d, #14b8a6, #22d3ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        nav .menu {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        nav button {
+            background: none;
+            border: none;
+            color: #cbd5e1;
+            cursor: pointer;
+            transition: color 0.3s;
+            font-size: 0.875rem;
+        }
+
+        nav button:hover {
+            color: #22d3ee;
+        }
+
+        nav .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            nav .menu {
+                display: none;
+            }
+            nav .hamburger {
+                display: block;
+            }
+        }
+
+        /* Sections */
+        section {
+            padding: 2rem 1.5rem;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 5rem;
+            background: linear-gradient(to bottom, #000, #064e3b, #000);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 80rem;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero-text h1 .gradient {
+            background: linear-gradient(to right, #a1e08d, #14b8a6, #22d3ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-text p {
+            color: #cbd5e1;
+            font-size: 1.125rem;
+            margin-bottom: 2rem;
+            max-width: 36rem;
+            line-height: 1.625;
+        }
+
+        .hero-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            border-radius: 9999px;
+            background: linear-gradient(to right, #4ade80, #0d9488, #06b6d4);
+            color: #000;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: transform 0.3s;
+        }
+
+        .hero-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .hero-image {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-image img {
+            max-width: 100%;
+            height: 500px;
+            object-fit: cover;
+            border-radius: 40px;
+            border: 2px solid rgba(34, 211, 238, 0.5);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        /* Stats */
+        .stats {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 6rem 1.5rem;
+        }
+
+        .stats-container {
+            max-width: 72rem;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(to right, #22d3ee, #a1e08d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .stat-label {
+            color: #cbd5e1;
+            font-size: 1.125rem;
+        }
+
+        @media (max-width: 768px) {
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+            .hero-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* About Section */
+        #about {
+            background: rgba(255, 255, 255, 0.05);
+            text-align: center;
+            padding: 7rem 1.5rem;
+        }
+
+        #about h2 {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+        }
+
+        #about p {
+            max-width: 48rem;
+            margin: 0 auto;
+            color: #cbd5e1;
+            font-size: 1.125rem;
+            line-height: 1.625;
+        }
+
+        /* Services Section */
+        #services {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 7rem 1.5rem;
+        }
+
+        #services h2 {
+            font-size: 3rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .services-grid {
+            max-width: 80rem;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(34, 211, 238, 0.3);
+            border-radius: 32px;
+            padding: 2rem;
+            backdrop-filter: blur(20px);
+            transition: all 0.7s;
+            cursor: pointer;
+        }
+
+        .service-card:hover {
+            transform: translateY(-1.25rem) scale(1.05);
+        }
+
+        .service-icon {
+            width: 4rem;
+            height: 4rem;
+            border-radius: 1rem;
+            background: linear-gradient(to right, #4ade80, #0d9488, #06b6d4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .service-card p {
+            color: #cbd5e1;
+            font-size: 0.875rem;
+            line-height: 1.625;
+        }
+
+        @media (max-width: 768px) {
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Doctors Section */
+        #doctors {
+            padding: 7rem 1.5rem;
+        }
+
+        #doctors .intro {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        #doctors .subtitle {
+            color: #a1e08d;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            margin-bottom: 1rem;
+        }
+
+        #doctors h2 {
+            font-size: 3rem;
+            font-weight: bold;
+        }
+
+        .doctors-grid {
+            max-width: 80rem;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .doctor-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            border-radius: 32px;
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+            transition: transform 0.5s;
+            cursor: pointer;
+        }
+
+        .doctor-card:hover {
+            transform: scale(1.05);
+        }
+
+        .doctor-card img {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+        }
+
+        .doctor-info {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .doctor-info h3 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .doctor-info p {
+            color: #06b6d4;
+        }
+
+        @media (max-width: 768px) {
+            .doctors-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Appointment Section */
+        #appointment {
+            padding: 7rem 1.5rem;
+        }
+
+        .appointment-container {
+            max-width: 56rem;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(40px);
+            border: 2px solid rgba(34, 211, 238, 0.3);
+            border-radius: 40px;
+            padding: 2.5rem;
+        }
+
+        .appointment-container h2 {
+            font-size: 3rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            grid-column: span 1;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: #cbd5e1;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(34, 211, 238, 0.3);
+            border-radius: 1rem;
+            padding: 1rem;
+            outline: none;
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .form-group input::placeholder {
+            color: #94a3b8;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #22d3ee;
+        }
+
+        .form-error {
+            color: #f87171;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 9999px;
+            background: linear-gradient(to right, #4ade80, #0d9488, #06b6d4);
+            color: #000;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: transform 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .success-message {
+            text-align: center;
+            padding: 3rem;
+            color: #4ade80;
+        }
+
+        .success-message .icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Testimonials */
+        #testimonials {
+            padding: 7rem 1.5rem;
+        }
+
+        #testimonials h2 {
+            font-size: 3rem;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 5rem;
+            background: linear-gradient(to right, #22d3ee, #a1e08d, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .testimonial-card {
+            max-width: 56rem;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(34, 211, 238, 0.3);
+            border-radius: 32px;
+            padding: 2.5rem;
+            text-align: center;
+            backdrop-filter: blur(40px);
+            transition: transform 0.7s;
+        }
+
+        .testimonial-card:hover {
+            transform: scale(1.05);
+        }
+
+        .stars {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            gap: 0.5rem;
+        }
+
+        .stars span {
+            font-size: 1.5rem;
+            color: #facc15;
+        }
+
+        .testimonial-card h3 {
+            font-size: 1.875rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-card p {
+            color: #cbd5e1;
+            font-size: 1.25rem;
+            line-height: 1.625;
+        }
+
+        /* Footer */
+        footer {
+            padding: 4rem 1.5rem;
+            border-top: 2px solid rgba(34, 211, 238, 0.3);
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .footer-container {
+            max-width: 80rem;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2.5rem;
+        }
+
+        footer h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #a1e08d, #14b8a6, #22d3ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        footer p, footer li {
+            color: #94a3b8;
+            margin-bottom: 0.5rem;
+        }
+
+        footer a {
+            color: #94a3b8;
+            cursor: pointer;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        footer a:hover {
+            color: #22d3ee;
+        }
+
+        footer ul {
+            list-style: none;
+        }
+
+        @media (max-width: 768px) {
+            .footer-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Floating Buttons */
+        .float-buttons {
+            position: fixed;
+            bottom: 2rem;
+            right: 1.5rem;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .float-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 1.25rem;
+            border-radius: 9999px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.3s;
+            font-size: 1rem;
+        }
+
+        .whatsapp-btn {
+            background: linear-gradient(to right, #22c55e, #10b981, #16a34a);
+            color: #fff;
+            box-shadow: 0 0 60px rgba(34, 197, 94, 0.8);
+            border: 2px solid rgba(134, 239, 172, 0.5);
+        }
+
+        .call-btn {
+            background: #06b6d4;
+            color: #fff;
+            width: 56px;
+            height: 56px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 40px rgba(34, 211, 238, 0.7);
+            border: 2px solid rgba(6, 182, 212, 0.5);
+        }
+
+        .float-btn:hover {
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            .whatsapp-btn span {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Scroll Progress Bar -->
+    <div id="scrollBar"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="logo">Aara Eye Hospital</div>
+            <ul class="menu">
+                <li><button onclick="scrollToSection('about')">About</button></li>
+                <li><button onclick="scrollToSection('services')">Services</button></li>
+                <li><button onclick="scrollToSection('doctors')">Doctors</button></li>
+                <li><button onclick="scrollToSection('appointment')">Appointment</button></li>
+                <li><button onclick="scrollToSection('contact')">Contact</button></li>
+            </ul>
+            <button class="hamburger" onclick="alert('Mobile menu coming soon!')">☰</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <div style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; border-radius: 9999px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); margin-bottom: 1.5rem; font-size: 0.875rem; width: fit-content;">
+                    <span style="width: 0.5rem; height: 0.5rem; background: #22d3ee; border-radius: 50%; animation: ping 1.5s ease-in-out infinite;"></span>
+                    International Standard Eye Care
+                </div>
+                <h1>Advanced Vision Care for a <span class="gradient">Brighter Tomorrow</span></h1>
+                <p>We are a secondary care speciality ophthalmic hospital in Namakkal with advanced and affordable treatment.</p>
+                <button class="hero-btn" onclick="scrollToSection('appointment')">📅 Book Appointment →</button>
+            </div>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?q=80&w=1974" alt="Eye Specialist">
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-number">25K+</div>
+                <div class="stat-label">Happy Patients</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">15+</div>
+                <div class="stat-label">Years Experience</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">12+</div>
+                <div class="stat-label">Specialists</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">Emergency Support</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <h2>About Us</h2>
+        <p>Aara Eye Hospital is dedicated to providing world-class eye care with advanced technology and compassionate service.</p>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services">
+        <h2>Comprehensive Eye Care Solutions</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">👁️</div>
+                <h3>Cataract Surgery</h3>
+                <p>Advanced treatment using precision diagnostics.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">👁️</div>
+                <h3>LASIK Surgery</h3>
+                <p>Advanced treatment using precision diagnostics.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">👁️</div>
+                <h3>Retina Treatment</h3>
+                <p>Advanced treatment using precision diagnostics.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">👁️</div>
+                <h3>Glaucoma Care</h3>
+                <p>Advanced treatment using precision diagnostics.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">👁️</div>
+                <h3>Pediatric Ophthalmology</h3>
+                <p>Advanced treatment using precision diagnostics.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">👁️</div>
+                <h3>Cornea Transplant</h3>
+                <p>Advanced treatment using precision diagnostics.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">👁️</div>
+                <h3>Diabetic Eye Care</h3>
+                <p>Advanced treatment using precision diagnostics.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">👁️</div>
+                <h3>Dry Eye Treatment</h3>
+                <p>Advanced treatment using precision diagnostics.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Doctors Section -->
+    <section id="doctors">
+        <div class="intro">
+            <div class="subtitle">Specialists</div>
+            <h2>Meet Our Eye Specialists</h2>
+        </div>
+        <div class="doctors-grid">
+            <div class="doctor-card">
+                <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?q=80&w=1200" alt="Dr. Aravind">
+                <div class="doctor-info">
+                    <h3>Dr. Aravind</h3>
+                    <p>Retina Specialist</p>
+                </div>
+            </div>
+            <div class="doctor-card">
+                <img src="https://images.unsplash.com/photo-1638202993928-7ab22a1ad30d?q=80&w=1200" alt="Dr. Meena">
+                <div class="doctor-info">
+                    <h3>Dr. Meena</h3>
+                    <p>Pediatric Ophthalmology</p>
+                </div>
+            </div>
+            <div class="doctor-card">
+                <img src="https://images.unsplash.com/photo-1537053143800-cf5c52f4f4d8?q=80&w=1200" alt="Dr. Karthik">
+                <div class="doctor-info">
+                    <h3>Dr. Karthik</h3>
+                    <p>Glaucoma Specialist</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Appointment Section -->
+    <section id="appointment">
+        <div class="appointment-container">
+            <h2>Schedule Your Consultation</h2>
+            <form id="appointmentForm" onsubmit="handleSubmit(event)">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="name">Patient Name</label>
+                        <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+                        <div class="form-error" id="nameError"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" placeholder="10-digit phone number" maxlength="10" required>
+                        <div class="form-error" id="phoneError"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="date">Appointment Date</label>
+                        <input type="date" id="date" name="date" required>
+                        <div class="form-error" id="dateError"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="service">Service</label>
+                        <select id="service" name="service">
+                            <option value="">Select Service</option>
+                            <option value="Cataract Surgery">Cataract Surgery</option>
+                            <option value="LASIK Surgery">LASIK Surgery</option>
+                            <option value="Retina Treatment">Retina Treatment</option>
+                            <option value="Glaucoma Care">Glaucoma Care</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn">Confirm Appointment</button>
+            </form>
+            <div id="successMessage" style="display:none;">
+                <div class="success-message">
+                    <div class="icon">✓</div>
+                    <h3>Appointment Request Sent!</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials">
+        <h2>Trusted by Thousands</h2>
+        <div class="testimonial-card">
+            <div class="stars">
+                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+            </div>
+            <h3 id="testimonialName">Ramesh Kumar</h3>
+            <p id="testimonialText">"Excellent cataract surgery and caring doctors. The hospital atmosphere feels world class."</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="footer-container">
+            <div>
+                <h3>Aara Eye Hospital</h3>
+                <p>Advanced ophthalmology care in Namakkal.</p>
+            </div>
+            <div>
+                <h3>Contact</h3>
+                <ul>
+                    <li><a onclick="window.location.href='tel:+918778231048'">+91 87782 31048</a></li>
+                    <li>📍 Namakkal, Tamil Nadu</li>
+                </ul>
+            </div>
+            <div>
+                <h3>Hours</h3>
+                <ul>
+                    <li>Monday - Friday: 9 AM - 6 PM</li>
+                    <li>Saturday: 10 AM - 4 PM</li>
+                    <li>Sunday: Closed</li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Buttons -->
+    <div class="float-buttons">
+        <button class="float-btn whatsapp-btn" onclick="openWhatsApp()">
+            <span>💬</span>
+            <span>WhatsApp Us</span>
+        </button>
+        <button class="float-btn call-btn" onclick="window.location.href='tel:+918778231048'" title="Call us">📞</button>
+    </div>
+
+    <script>
+        // Testimonials data
+        const testimonials = [
+            { name: 'Ramesh Kumar', text: 'Excellent cataract surgery and caring doctors. The hospital atmosphere feels world class.' },
+            { name: 'Priya Shankar', text: 'Very advanced eye treatment with affordable cost. Doctors explained everything clearly.' },
+            { name: 'Vignesh S', text: 'Best retina and glaucoma care in Namakkal. Staff were very supportive and professional.' }
+        ];
+
+        let currentTestimonial = 0;
+
+        // Auto-rotate testimonials
+        setInterval(() => {
+            currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+            document.getElementById('testimonialName').textContent = testimonials[currentTestimonial].name;
+            document.getElementById('testimonialText').textContent = '"' + testimonials[currentTestimonial].text + '"';
+        }, 4000);
+
+        // Scroll progress bar
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            document.getElementById('scrollBar').style.width = scrollPercent + '%';
+        });
+
+        // Smooth scroll to sections
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Format phone number
+        function formatPhoneNumber(value) {
+            return value.replace(/\D/g, '').slice(0, 10);
+        }
+
+        // Phone input formatting
+        document.getElementById('phone').addEventListener('input', (e) => {
+            e.target.value = formatPhoneNumber(e.target.value);
+        });
+
+        // Form validation and submission
+        function handleSubmit(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const date = document.getElementById('date').value;
+            const service = document.getElementById('service').value;
+
+            let errors = false;
+
+            // Reset errors
+            document.getElementById('nameError').textContent = '';
+            document.getElementById('phoneError').textContent = '';
+            document.getElementById('dateError').textContent = '';
+
+            // Validate name
+            if (!name) {
+                document.getElementById('nameError').textContent = 'Name is required';
+                errors = true;
+            }
+
+            // Validate phone
+            if (!phone) {
+                document.getElementById('phoneError').textContent = 'Phone number is required';
+                errors = true;
+            } else if (phone.length !== 10) {
+                document.getElementById('phoneError').textContent = 'Enter valid 10-digit phone number';
+                errors = true;
+            }
+
+            // Validate date
+            if (!date) {
+                document.getElementById('dateError').textContent = 'Select appointment date';
+                errors = true;
+            } else {
+                const selectedDate = new Date(date);
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                if (selectedDate < today) {
+                    document.getElementById('dateError').textContent = 'Please select a future date';
+                    errors = true;
+                }
+            }
+
+            if (errors) return;
+
+            // Send WhatsApp message
+            const message = `Hello Aara Eye Hospital, I would like to book an appointment.\n\nName: ${name}\nPhone: ${phone}\nDate: ${date}\nService: ${service || 'General Consultation'}`;
+            const whatsappLink = `https://wa.me/918778231048?text=${encodeURIComponent(message)}`;
+            window.open(whatsappLink, '_blank');
+
+            // Show success message
+            document.getElementById('appointmentForm').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'block';
+
+            // Reset form after 2 seconds
+            setTimeout(() => {
+                document.getElementById('appointmentForm').reset();
+                document.getElementById('appointmentForm').style.display = 'block';
+                document.getElementById('successMessage').style.display = 'none';
+            }, 2000);
+        }
+
+        // WhatsApp button
+        function openWhatsApp() {
+            const message = 'Hello Aara Eye Hospital, I need assistance';
+            const whatsappLink = `https://wa.me/918778231048?text=${encodeURIComponent(message)}`;
+            window.open(whatsappLink, '_blank');
+        }
+
+        // Set minimum date
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('date').setAttribute('min', today);
+    </script>
+</body>
+</html>
